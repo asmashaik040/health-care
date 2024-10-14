@@ -71,7 +71,7 @@ const AdminPage = ({ params: { userId } }: SearchParamProps) => {
         <section className="w-full space-y-4">
           <h1 className="header">Welcome 👋</h1>
           <p className="text-dark-700">
-            Start the day with managing new appointments
+            Stay updated with appointments
           </p>
         </section>
 

@@ -40,18 +40,18 @@ const RequestSuccess = ({
           </Link>
 
           <div>
-              <Button variant="outline" className="shad-primary-btn" asChild>
-                <Link href={`/admin/${userId}`}>
-                  Dashboard
-                </Link>
-              </Button>
+            <Button variant="outline" className="shad-primary-btn" asChild>
+              <Link href={`/admin/${userId}`}>
+                Dashboard
+              </Link>
+            </Button>
 
-              <Button variant="outline" className="ml-8 shad-primary-btn" asChild>
-                <Link href="/">
-                  Logout
-                </Link>
-              </Button>
-            </div>
+            <Button variant="outline" className="ml-8 shad-primary-btn" asChild>
+              <Link href="/">
+                Logout
+              </Link>
+            </Button>
+          </div>
         </section>
 
         <section className="flex flex-col items-center">
@@ -71,17 +71,17 @@ const RequestSuccess = ({
         <section className="request-details">
           <p>Requested appointment details: </p>
           <div className="flex items-center gap-3">
-          {doctor?.image ? (
-            <Image
-              src={doctor.image}
-              alt="doctor"
-              width={100}
-              height={100}
-              className="size-6"
-            />
-          ) : (
-            <div>Image not available</div>
-          )}
+            {doctor?.image ? (
+              <Image
+                src={doctor.image}
+                alt="doctor"
+                width={100}
+                height={100}
+                className="size-6"
+              />
+            ) : (
+              <div>Image not available</div>
+            )}
             <p className="whitespace-nowrap">Dr. {doctor?.name}</p>
           </div>
           <div className="flex gap-2">
@@ -91,7 +91,11 @@ const RequestSuccess = ({
               width={24}
               alt="calendar"
             />
-            <p> {formatDateTime(appointmentDetails.schedule).dateTime}</p>
+            {appointmentDetails ? (
+              <p>{formatDateTime(appointmentDetails.schedule).dateTime}</p>
+            ) : (
+              <p>Appointment details not available</p>
+            )}
           </div>
         </section>
 

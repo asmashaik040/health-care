@@ -41,7 +41,7 @@ const Appointment = ({ params: { userId } }: SearchParamProps) => {
           </section>
 
           <AppointmentForm
-            patientId={patient?.userId}
+            patientId={patient?.userId ?? ''}
             userId={userId}
             type="create"
           />

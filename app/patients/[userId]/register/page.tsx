@@ -10,22 +10,20 @@ import { useEffect } from "react";
 const Register = ({ params: { userId } }: SearchParamProps) => {
   const { users, patients, appointments } = usePatientData();
   const router = useRouter();
-
   const user = getUser(users, userId);
-
   const newPatient = getPatient(patients, userId);
 
   const appointmentsList = getAppointments(appointments, userId);
 
   useEffect(() => {
-    if (newPatient?.userId) {
-      if (appointmentsList.length > 0) {
+    if (newPatient && newPatient.userId) {
+      if (appointmentsList && appointmentsList.length > 0) {
         router.push(`/admin/${newPatient.userId}`);
       } else {
         router.push(`/patients/${newPatient.userId}/new-appointment`);
       }
     }
-  }, [appointmentsList, newPatient?.userId, router]);
+  }, [appointmentsList, newPatient, router]);
 
   if (!newPatient || !newPatient?.userId) {
     return (
@@ -40,7 +38,11 @@ const Register = ({ params: { userId } }: SearchParamProps) => {
               className="mb-12 h-10 w-fit"
             />
 
-            <RegisterForm user={user} />
+            {user ? (
+              <RegisterForm user={user} />
+            ) : (
+              <div>Loading...</div>
+            )}
 
             <p className="copyright py-12">© 2024 CarePluse</p>
           </div>

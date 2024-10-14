@@ -29,11 +29,11 @@ const AdminPage = ({ params: { userId } }: SearchParamProps) => {
   ).filter((appointment) => appointment.status === "cancelled");
 
   const data = {
-    totalCount: appointmentList.length,
+    totalCount: appointmentList ? appointmentList.length : 0,
     scheduledCount: scheduledAppointments.length,
     pendingCount: pendingAppointments.length,
     cancelledCount: cancelledAppointments.length,
-    documents: appointmentList,
+    documents: appointmentList ? appointmentList : [],
   };
 
   return (

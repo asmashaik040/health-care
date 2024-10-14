@@ -28,7 +28,7 @@ export enum FormFieldType {
 }
 
 interface CustomProps {
-  control: Control<any>;
+  control: Control<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   name: string;
   label?: string;
   placeholder?: string;
@@ -38,11 +38,11 @@ interface CustomProps {
   dateFormat?: string;
   showTimeSelect?: boolean;
   children?: React.ReactNode;
-  renderSkeleton?: (field: any) => React.ReactNode;
+  renderSkeleton?: (field: any) => React.ReactNode; // eslint-disable-line @typescript-eslint/no-explicit-any
   fieldType: FormFieldType;
 }
 
-const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
+const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => { // eslint-disable-line @typescript-eslint/no-explicit-any
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (

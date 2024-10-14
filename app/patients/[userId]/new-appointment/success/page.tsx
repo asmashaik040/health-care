@@ -7,18 +7,17 @@ import { Button } from "@/components/ui/button";
 import { Doctors } from "@/constants";
 import { getAppointment } from "@/lib/actions/patient.actions";
 import { formatDateTime } from "@/lib/utils";
-import usePatientData, { Appointment } from "@/store/patients";
+import usePatientData from "@/store/patients";
 
-const RequestSuccess = async ({
+const RequestSuccess = ({
   searchParams,
   params: { userId },
 }: SearchParamProps) => {
   const appointmentId = (searchParams?.appointmentId as string) || "";
   const { appointments } = usePatientData();
 
-  const appointmentDetails = await getAppointment(appointments, appointmentId);
-console.log("********")
-console.log(appointmentDetails)
+  const appointmentDetails = getAppointment(appointments, appointmentId);
+
   let doctor;
   if (appointmentDetails && appointmentDetails.primaryPhysician) {
     doctor = Doctors.find(
@@ -72,13 +71,17 @@ console.log(appointmentDetails)
         <section className="request-details">
           <p>Requested appointment details: </p>
           <div className="flex items-center gap-3">
+          {doctor?.image ? (
             <Image
-              src={doctor?.image!}
+              src={doctor.image}
               alt="doctor"
               width={100}
               height={100}
               className="size-6"
             />
+          ) : (
+            <div>Image not available</div>
+          )}
             <p className="whitespace-nowrap">Dr. {doctor?.name}</p>
           </div>
           <div className="flex gap-2">

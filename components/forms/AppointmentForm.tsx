@@ -48,7 +48,7 @@ export const AppointmentForm = ({
     defaultValues: {
       primaryPhysician: appointment ? appointment?.primaryPhysician : "",
       schedule: appointment
-        ? new Date(appointment?.schedule!)
+        ? new Date(appointment?.schedule ?? '')
         : new Date(Date.now()),
       reason: appointment ? appointment.reason : "",
       note: appointment?.note || "",
@@ -56,7 +56,7 @@ export const AppointmentForm = ({
     },
   });
 
-  const onSubmit = async (
+  const onSubmit = (
     values: z.infer<typeof AppointmentFormValidation>
   ) => {
     setIsLoading(true);
@@ -74,12 +74,16 @@ export const AppointmentForm = ({
       //status = "pending";
     }
 
-    const patient = await getPatient(patients, patientId)
+    const patient = getPatient(patients, patientId)
+    if (!patient) {
+      return <div>Patient not found</div>;
+    }
+
     try {
       if (type === "create" && patientId) {
         const newAppointmentId = 'CP_AP_' + new Date().toISOString();
 
-          createAppointment(userId, newAppointmentId, patient, values.primaryPhysician, values.reason!, new Date(values.schedule), status as Status, values.note!, "");
+        createAppointment(userId, newAppointmentId, patient, values.primaryPhysician, values.reason!, new Date(values.schedule), status as Status, values.note!, "");
 
         if (newAppointmentId) {
           form.reset();
@@ -90,7 +94,7 @@ export const AppointmentForm = ({
       } else {
         const appointmentToUpdate = {
           userId,
-          appointmentId: appointment?.appointmentId!,
+          appointmentId: appointment?.appointmentId ?? '',
           patient,
           primaryPhysician: values.primaryPhysician,
           schedule: new Date(values.schedule),
@@ -100,10 +104,10 @@ export const AppointmentForm = ({
           cancellationReason: values.cancellationReason,
         };
 
-        const updatedAppointment = await updateAppointment(appointments, appointmentToUpdate);
+        const updatedAppointment = updateAppointment(appointments, appointmentToUpdate);
 
         if (updatedAppointment) {
-          setOpen && setOpen(false);
+          if (setOpen) setOpen(false);
           form.reset();
         }
       }
@@ -122,7 +126,7 @@ export const AppointmentForm = ({
       buttonLabel = "Schedule Appointment";
       break;
     default:
-      buttonLabel = "Submit Apppointment";
+      buttonLabel = "Submit Appointment";
   }
 
   return (

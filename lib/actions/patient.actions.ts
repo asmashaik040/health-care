@@ -4,7 +4,7 @@ import { parseStringify } from "../utils";
 import { Patient, User, Appointment } from "@/store/patients";
 
 // GET USER
-export const getUser = async (users: User[], userId: string) => {
+export const getUser = (users: User[], userId: string) => {
   try {
     const user = users.find((patient) => patient.$id === userId) as User;
 
@@ -19,7 +19,7 @@ export const getUser = async (users: User[], userId: string) => {
 };
 
 // GET PATIENT
-export const getPatient = async (patients: Patient[], userId: string) => {
+export const getPatient = (patients: Patient[], userId: string) => {
   try {
     const newPatient = patients.find(
       (patient) => patient.userId === userId
@@ -35,7 +35,7 @@ export const getPatient = async (patients: Patient[], userId: string) => {
 };
 
 // GET Appointment
-export const getAppointment = async (
+export const getAppointment = (
   appointments: Appointment[],
   appointmentId: string
 ) => {
@@ -54,7 +54,7 @@ export const getAppointment = async (
 };
 
 // GET all available Appointments
-export const getAppointments = async (
+export const getAppointments = (
   appointments: Appointment[],
   userId: string
 ) => {
@@ -73,7 +73,7 @@ export const getAppointments = async (
 };
 
 // Update Appointment
-export const updateAppointment = async (
+export const updateAppointment = (
   appointments: Appointment[],
   appointmentToUpdate: Appointment
 ) => {

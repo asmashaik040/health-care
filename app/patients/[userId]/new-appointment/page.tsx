@@ -7,10 +7,10 @@ import usePatientData from "@/store/patients";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const Appointment = async ({ params: { userId } }: SearchParamProps) => {
+const Appointment = ({ params: { userId } }: SearchParamProps) => {
   const { patients } = usePatientData();
 
-  const patient = await getPatient(patients, userId);
+  const patient = getPatient(patients, userId);
 
   return (
     <div className="flex h-screen max-h-screen">

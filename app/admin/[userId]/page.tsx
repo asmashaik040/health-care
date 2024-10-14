@@ -9,11 +9,11 @@ import usePatientData, { Appointment } from "@/store/patients";
 import { Button } from "@/components/ui/button";
 import { getAppointments } from "@/lib/actions/patient.actions";
 
-const AdminPage = async ({ params: { userId } }: SearchParamProps) => {
+const AdminPage = ({ params: { userId } }: SearchParamProps) => {
 
   const { appointments } = usePatientData();
 
-  const appointmentList = await getAppointments(appointments, userId);
+  const appointmentList = getAppointments(appointments, userId);
 
 
   const scheduledAppointments = (
@@ -27,31 +27,6 @@ const AdminPage = async ({ params: { userId } }: SearchParamProps) => {
   const cancelledAppointments = (
     appointmentList as Appointment[]
   ).filter((appointment) => appointment.status === "cancelled");
-
-
-  const initialCounts = {
-    scheduledCount: 0,
-    pendingCount: 0,
-    cancelledCount: 0,
-  };
-
-  const counts = (appointmentList as Appointment[]).reduce(
-    (acc, appointment) => {
-      switch (appointment.status) {
-        case "scheduled":
-          acc.scheduledCount++;
-          break;
-        case "pending":
-          acc.pendingCount++;
-          break;
-        case "cancelled":
-          acc.cancelledCount++;
-          break;
-      }
-      return acc;
-    },
-    initialCounts
-  );
 
   const data = {
     totalCount: appointmentList.length,

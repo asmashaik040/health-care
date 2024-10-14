@@ -19,7 +19,7 @@ export const PatientForm = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const addUser = usePatientData((state) => state.addUser);
-  const { users, patients, appointments } = usePatientData();
+  const { users } = usePatientData();
 
 
   const form = useForm<z.infer<typeof UserFormValidation>>({
@@ -31,7 +31,7 @@ export const PatientForm = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
+  const onSubmit = (values: z.infer<typeof UserFormValidation>) => {
     setIsLoading(true);
 
     try {
@@ -42,7 +42,7 @@ export const PatientForm = () => {
         phone: values.phone,
       };
 
-      const userEnrolled = await getUser(users, user.$id);
+      const userEnrolled = getUser(users, user.$id);
 
       if (!userEnrolled) {
         addUser(user.$id, user.name, user.email, user.phone);

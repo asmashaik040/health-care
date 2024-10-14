@@ -5,28 +5,29 @@ import { useRouter } from "next/navigation";
 import RegisterForm from "@/components/forms/RegisterForm";
 import { getAppointments, getPatient, getUser } from "@/lib/actions/patient.actions";
 import usePatientData from "@/store/patients";
+import { useEffect } from "react";
 
-const Register = async ({ params: { userId } }: SearchParamProps) => {
+const Register = ({ params: { userId } }: SearchParamProps) => {
   const { users, patients, appointments } = usePatientData();
   const router = useRouter();
 
-  const user = await getUser(users, userId);
+  const user = getUser(users, userId);
 
-  const newPatient = await getPatient(patients, userId);
+  const newPatient = getPatient(patients, userId);
 
-  const appointmentsList = await getAppointments(appointments, userId);
+  const appointmentsList = getAppointments(appointments, userId);
 
-  if (newPatient && newPatient?.userId) {
-    await Promise.resolve();
-    
-    if (appointmentsList.length >0) {
-      router.push(`/admin/${newPatient.userId}`);
-    } else {
-      router.push(`/patients/${newPatient.userId}/new-appointment`);
+  useEffect(() => {
+    if (newPatient?.userId) {
+      if (appointmentsList.length > 0) {
+        router.push(`/admin/${newPatient.userId}`);
+      } else {
+        router.push(`/patients/${newPatient.userId}/new-appointment`);
+      }
     }
+  }, [appointmentsList, newPatient?.userId, router]);
 
-  } else {
-
+  if (!newPatient || !newPatient?.userId) {
     return (
       <div className="flex h-screen max-h-screen">
         <section className="remove-scrollbar container">
@@ -55,6 +56,7 @@ const Register = async ({ params: { userId } }: SearchParamProps) => {
       </div>
     );
   }
+  return null;
 
 };
 
